@@ -1,0 +1,9 @@
+<div class="app-container">
+    <header class="header">
+        <button routerLink="/integration-instance" routerLinkActive="active" (click)="onButtonClick('II')">Integration Instance</button>
+        <button routerLink="/user-login-mapping" routerLinkActive="active" (click)="onButtonClick('ULM')">User Login Mapping</button>
+    </header>
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

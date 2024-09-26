@@ -1,0 +1,128 @@
+<mat-card class="card" appearance="outlined">
+    <mat-card-header class="card-header">
+      <mat-card-title>Manage Integration Instance</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="card-body" *ngIf="this.formData">
+      <table>
+        <tbody>
+          <tr>
+            <td class="legendLayout">
+              <fieldset>
+                <legend style="font-weight: bold;">Integration details</legend><br>
+                <table cellspacing="0" cellpadding="1" border="0" class="legendTable">
+                  <tbody>
+                    <tr>
+                      <td><label>Name</label></td>
+                      <td><input style="width: 98%;" [value]="this.formData?.displayName" disabled></td>
+                    </tr>
+                    <tr>
+                      <td><label>Code</label></td>
+                      <td><input style="width: 98%;" [(ngModel)]="this.formData.code" disabled></td>
+                    </tr>
+                    <tr class="mandatory">
+                      <td><label>Integration type</label></td>
+                      <td>
+                        <select id="options" name="options" style="width: 100%;" [(ngModel)]="this.formData.agtypCode">
+                          <option value="0">Context agent</option>
+                          <option value="1">View agent</option>
+                          <option value="2">Service agent</option>
+                          <option value="3">Embedded agent</option>
+                          <option value="4">Rest agent</option>
+                          <option value="5">Soap agent</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Class type</label></td>
+                      <td>
+                        <select id="options" name="options" style="width: 100%;" [(ngModel)]="this.formData.cType">
+                          <option value="iSOFT.LORENZO.CNGContextAgents.CodeNGroupContextAgent,LorArcCNGAgent">iSOFT.LORENZO.CNGContextAgents.CodeNGroupContextAgent,LorArcCNGAgent</option>
+                          <option value="iSOFT.LORENZO.CNGContextAgents.MedicodeContextAgent,LorArcCNGAgent">iSOFT.LORENZO.CNGContextAgents.MedicodeContextAgent,LorArcCNGAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.CitrixContextAgent,LorCitrixContextAgent">iSOFT.LORENZO.ContextAgents.CitrixContextAgent,LorCitrixContextAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.DIOrchestrationAgent,LorWebContextAgent">iSOFT.LORENZO.ContextAgents.DIOrchestrationAgent,LorWebContextAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.RESTContextAgent,LorRESTContextAgent">iSOFT.LORENZO.ContextAgents.RESTContextAgent,LorRESTContextAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.RestViewerAgent,LorRestViewerAgent">iSOFT.LORENZO.ContextAgents.RestViewerAgent,LorRestViewerAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.SOAPViewerAgent,LorSOAPContextAgent">iSOFT.LORENZO.ContextAgents.SOAPViewerAgent,LorSOAPContextAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.WebContextAgent,LorWebContextAgent">iSOFT.LORENZO.ContextAgents.WebContextAgent,LorWebContextAgent</option>
+                          <option value="iSOFT.LORENZO.ContextAgents.WindowContextAgent,LorWindowContextAgent">iSOFT.LORENZO.ContextAgents.WindowContextAgent,LorWindowContextAgent</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr><br>
+          <tr>
+            <td class="legendLayout">
+              <fieldset>
+                <legend style="font-weight: bold;">Authentication credentials</legend><br>
+                <table cellspacing="0" cellpadding="1" border="0" class="legendTable">
+                  <tbody>
+                    <tr>
+                      <td><label>Authentication mode</label></td>
+                      <td>
+                        <select id="options" name="options" style="width: 100%;" [(ngModel)]="this.formData.aumodCode">
+                          <option value="2">User mode</option>
+                          <option value="0">Pass through</option>
+                          <option value="1">Application mode</option>
+                          <option value="3">Mixed mode</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Integration Login ID</label></td>
+                      <td><input style="width: 98%;" [(ngModel)]="this.formData.extLoginID" [disabled]="this.formData.aumodCode === 0 || this.formData.aumodCode === 2"></td>
+                    </tr>
+                    <tr>
+                      <td><label>Integration password</label></td>
+                      <td><input style="width: 98%;" type="password" [(ngModel)]="this.formData.extPassword" [disabled]="this.formData.aumodCode === 0 || this.formData.aumodCode === 2"></td>
+                    </tr>
+                    <tr>
+                      <td><label>User login credential mandatory</label></td>
+                      <td><input type="checkbox" [(ngModel)]="this.formData.isloginMandatory" [disabled]="this.formData.aumodCode === 0 || this.formData.aumodCode === 2" [checked]="this.formData.aumodCode === 2"></td>
+                    </tr>
+                    <tr>
+                      <td><label>Allow override</label></td>
+                      <td><input type="checkbox" [(ngModel)]="this.formData.isAllowOverride" [disabled]="this.formData.aumodCode === 0"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr><br>
+          <tr>
+            <td class="legendLayout" *ngIf="this.formData.agtypCode == 3">
+              <fieldset>
+                <legend style="font-weight: bold;">Error Configuration</legend><br>
+                <table cellspacing="0" cellpadding="1" width="100%" border="0" style="table-layout: fixed;">
+                  <tbody>
+                    <tr>
+                      <td style="width: 25%;"><label>Error configuration</label></td>
+                      <td><textarea class="textarea" matInput></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+
+    <mat-card-footer class="card-footer">
+      <div class="action" (click)="onFinishNow()">
+        <img src="assets/images/iFinishNowHOT32.png" alt="Next Icon" />
+        <a>Finish now</a>
+      </div>
+      <div class="action" (click)="Next()">
+        <img src="assets/images/iNextStepHOT24.gif" alt="Next Icon" />
+        <a>Next</a>
+      </div>
+      <div class="action" (click)="onCancel()">
+        <img src="assets/images/iNewCancelHot.png" alt="Cancel Icon" />
+        <a>Cancel</a>
+      </div>
+    </mat-card-footer>
+</mat-card>

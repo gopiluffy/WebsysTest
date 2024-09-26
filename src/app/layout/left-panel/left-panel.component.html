@@ -1,0 +1,17 @@
+<div class="list">
+   <div class="header">
+      <span class="header-text">Integration instance</span>
+      <img class="toggle-button" [src]="isExpanded ? 'assets/images/AFW_Expand.gif' : 'assets/images/AFW_Collapse.gif'" (click)="toggleList()" alt="Toggle">
+   </div>
+   <div *ngIf="isExpanded">
+      <div class="action" (click)="openDialog(field1)">
+         <img src="assets/images/AFW_Arrow.gif" alt="Next Icon" />
+         <button mat-button class="ellipsed-button">{{field1}}</button>
+         </div>
+      <div class="action" (click)="openDialog(field2)">
+         <img src="assets/images/AFW_Arrow.gif" alt="Next Icon" />
+         <button mat-button class="ellipsed-button">{{field2}}</button>
+</div>
+   </div>
+   </div>
+        

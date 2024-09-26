@@ -1,0 +1,128 @@
+<mat-card class="card" appearance="outlined">
+  <form [formGroup]="formData">
+    <mat-card-header class="card-header">
+      <mat-card-title>Create Integration Instance</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="card-body">
+      <table>
+        <tbody>
+          <tr>
+            <td class="legendLayout">
+              <fieldset>
+                <legend style="font-weight: bold;">Integration details</legend><br>
+                <table cellspacing="0" cellpadding="1" border="0" class="legendTable">
+                  <tbody>
+                    <tr class="mandatory">
+                      <td><label>Name</label></td>
+                      <td>
+                        <input style="width: 98%;" formControlName="displayName">
+                      </td>
+                    </tr>
+                    <tr class="mandatory">
+                      <td><label>Code</label></td>
+                      <td>
+                        <input style="width: 98%;" formControlName="code">
+                      </td>
+                    </tr>
+                    <tr class="mandatory">
+                      <td><label>Integration type</label></td>
+                      <td>
+                        <select id="agtypCode" name="agtypCode" style="width: 100%;" formControlName="agtypCode">
+                          <option *ngFor="let AgentTypes of integrationInfoModel.AgentTypes" [ngValue]="AgentTypes.value" >
+                            {{ AgentTypes.label }}
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Class type</label></td>
+                      <td>
+                        <select id="cType" name="cType" style="width: 100%;" formControlName="cType">
+                          <option *ngFor="let ClasssTypes of integrationInfoModel.ClasssTypes" [ngValue]="ClasssTypes.label">
+                            {{ ClasssTypes.label }}
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr><br>
+          <tr>
+            <td class="legendLayout">
+              <fieldset>
+                <legend style="font-weight: bold;">Authentication credentials</legend><br>
+                <table cellspacing="0" cellpadding="1" border="0" class="legendTable">
+                  <tbody>
+                    <tr>
+                      <td><label>Authentication mode</label></td>
+                      <td>
+                        <select id="aumodCode" name="aumodCode" style="width: 100%;" formControlName="aumodCode">
+                          <option *ngFor="let AuthenticationMode of integrationInfoModel.AuthenticationMode" [ngValue]="AuthenticationMode.value"  >
+                            {{ AuthenticationMode.label }}
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Integration Login ID</label></td>
+                      <td>
+                        <input style="width: 98%;" formControlName="extLoginID">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Integration password</label></td>
+                      <td>
+                        <input style="width: 98%;" type="password" formControlName="extPassword">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>User login credential mandatory</label></td>
+                      <td>
+                        <input type="checkbox" formControlName="isloginMandatory" [checked]="this.formData.get('aumodCode').value=='2'||this.formData.get('aumodCode').value=='3'">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Allow override</label></td>
+                      <td>
+                        <input type="checkbox" formControlName="isAllowOverride">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr><br>
+          <tr>
+            <td class="legendLayout" *ngIf="this.formData.get('agtypCode').value == 3">
+              <fieldset>
+                <legend style="font-weight: bold;">Error Configuration</legend><br>
+                <table cellspacing="0" cellpadding="1" width="100%" border="0" style="table-layout: fixed;">
+                  <tbody>
+                    <tr>
+                      <td style="width: 25%;"><label>Error configuration</label></td>
+                      <td><textarea class="textarea" matInput></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+
+    <mat-card-footer class="card-footer">
+      <div class="action" (click)="onNext()">
+        <img src="assets/images/iNextStepHOT24.gif" alt="Next Icon" />
+        <a>Next</a>
+      </div>
+      <div class="action" (click)="onCancel()">
+        <img src="assets/images/iNewCancelHot.png" alt="Cancel Icon" />
+        <a>Cancel</a>
+      </div>
+    </mat-card-footer>
+  </form>
+</mat-card>

@@ -1,0 +1,59 @@
+.list {
+    margin: 15px;
+    border-radius: 10px 10px 0 0;
+    background-color: #e4f1ff;
+    width: 220px; 
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    font-family: Verdana, Arial, Sans-Serif;
+    font-size: 14px;
+    font-weight: bold;
+    background-image: url('/assets/images/TaskPane_TitlePane.gif');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: white;
+    padding: 8px;
+  }
+  
+  .header-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .toggle-button {
+    margin-left: auto; 
+    width: 24px; 
+    height: 24px;
+    cursor: pointer;
+  }
+  
+  .ellipsed-button {
+    display: inline-block;
+    color: black !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: Verdana, Arial, Sans-Serif;
+    font-size: 13px;
+    height: 30px;
+  }
+  
+  button:hover {
+    background-color: #cee3e4;
+    border:1px solid black;
+    border-radius: 0px;
+  }
+
+  .action{
+    display: flex;
+  }
+  
+  .action img{
+    width: 30px;
+    height: 20px;
+    margin-top: 5px;
+  }

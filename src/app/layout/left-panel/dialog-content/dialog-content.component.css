@@ -1,0 +1,30 @@
+.container{
+  max-width: 60rem;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.closeicon {
+  margin-left: auto;
+  cursor: pointer;
+}
+  .action {
+    display: flex;
+    float: left;
+    align-items: center; 
+    margin-right: 20px;
+  cursor: pointer;
+    font-family: Verdana, Arial, Sans-Serif;
+    color: black;
+  }
+  .action a.active {
+    font-weight: bold;
+}
+  .action img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}

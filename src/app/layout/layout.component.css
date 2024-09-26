@@ -1,0 +1,15 @@
+.page{
+    min-height: 100vh;
+    display: flex;
+    width: 100%;
+}
+.lefttab {
+    background-image: url('/assets/images/iMainAppTaskpaneBG.gif');
+    background-color: #05396b;   
+    background-position: left bottom;
+    background-size: contain;  
+    background-repeat: no-repeat;
+}
+.righttab {
+    flex: 85%;
+}

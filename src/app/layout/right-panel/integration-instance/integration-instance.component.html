@@ -1,0 +1,35 @@
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 table" style="border: 1px solid black">
+
+  <!-- Expand Column -->
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" class="first-column">
+      <button mat-icon-button (click)="toggleRow(element, $event)">
+        <img [src]="element.useADSCredentials ? 'assets/images/iGridGroupExpanded9.gif' : 'assets/images/iGridGroupCollapsed9.gif'" alt="Expand/Collapse">
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Dynamic Columns -->
+  <ng-container *ngFor="let column of columnsToDisplay" [matColumnDef]="column">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <!-- Expanded Content Column -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length + 1">
+      <div *ngIf="element.expanded">
+        <div class="element-detail" *ngFor="let app of element.apps">
+            <div class="element-position"> {{app.code}} </div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- Header and Data Rows -->
+  <tr mat-header-row class="table-header" *matHeaderRowDef="['expand'].concat(columnsToDisplay)"></tr>
+  <tr mat-row class="element-row" *matRowDef="let element; columns: ['expand'].concat(columnsToDisplay)" (click)="selectRow(element)" [ngClass]="{'selected-row': isRowSelected(element)}"></tr>
+  <tr mat-row class="detail-row" *matRowDef="let row; columns: ['expandedDetail']"></tr>
+
+</table>

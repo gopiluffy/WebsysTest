@@ -1,0 +1,222 @@
+<mat-card class="card" appearance="outlined">
+  <mat-card-header class="card-header">
+    <mat-card-title>Connection Parameters</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="card-body">
+    <tr class="nameField">
+      <td style="width:10%"><label>Integration name</label></td>
+      <td style="width:20%"><label>{{this.data.displayName}}</label></td>
+      <td style="width:30%"></td>
+    </tr>
+    <table>
+      <tbody>
+        <tr>
+          <td colspan="3" class="extTable-container">
+            <table mat-table [dataSource]="gridDataSource" multiTemplateDataRows class="extTable">
+
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px"></th>
+                <td mat-cell *matCellDef="let element" style="padding: 0px;">
+                  <button mat-icon-button (click)="toggleRow(element, $event)">
+                    <img [src]="element.useADSCredentials ? 'assets/images/iGridGroupExpanded9.gif' : 'assets/images/iGridGroupCollapsed9.gif'" alt="Expand/Collapse">
+                  </button> 
+                </td>
+              </ng-container>
+
+              <ng-container *ngFor="let column of mainColumns" [matColumnDef]="column.name">
+                <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+                <td mat-cell *matCellDef="let element">{{ element[column.name] }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length + 1" style="padding-left: 50px;">
+                  <div *ngIf="element.useADSCredentials" @detailExpand style="border: 1px solid #5b9091;">
+                    <table mat-table [dataSource]="element.pluginCol" class="mat-elevation-z8" style="width: 100%; table-layout: fixed;">
+                      
+
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef style="width: 40px"></th>
+                        <td mat-cell *matCellDef="let plugin" style="padding: 0px;">
+                          <mat-checkbox (change)="selectChildRow(plugin, $event.checked)" [checked]="plugin.status"></mat-checkbox>
+                        </td>
+                      </ng-container>
+
+                      <ng-container *ngFor="let column of childColumns" [matColumnDef]="column.name">
+                        <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+                        <td mat-cell *matCellDef="let plugin">{{ plugin[column.name] }}</td>
+                      </ng-container>
+
+                      <tr class="extTable-header" mat-header-row *matHeaderRowDef="['actions'].concat(childColumnsToDisplay)"></tr>
+                      <tr class="extTable-body" mat-row *matRowDef="let plugin; columns: ['actions'].concat(childColumnsToDisplay);"></tr>
+                    </table>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr class="extTable-header" mat-header-row *matHeaderRowDef="['expand'].concat(columnsToDisplay)"></tr>
+              <tr class="extTable-body" mat-row *matRowDef="let element; columns: ['expand'].concat(columnsToDisplay)" (click)="selectRow(element)" [ngClass]="{'selected-row': isRowSelected(element)}"></tr>
+              <tr class="extTable-expanded" mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <!-- <div class="actions">
+              <button [disabled]="tabSelected === 0 || !rowSelected || childRowSelected" (click)="addPlugin()">Add new plug-in</button>
+              <button [disabled]="tabSelected === 1 || rowSelected" (click)="addRow()">Add</button>
+              <button [disabled]="!rowSelected" (click)="updateRow()" *ngIf="tabSelected === 0">Update</button>
+              <button [disabled]="!rowSelected" (click)="removeRow()" *ngIf="tabSelected === 0">Remove</button>
+              <button [disabled]="!childRowSelected" (click)="updateRow()" *ngIf="tabSelected === 1">Update</button>
+              <button [disabled]="!childRowSelected" (click)="removeRow()" *ngIf="tabSelected === 1">Remove</button>
+            </div> -->
+
+            <div class="actions">
+              <div class="body-action">
+                <img [src]="tabSelected === 0 || !rowSelected || childRowSelected ? 'assets/images/inewAddDIS.png' : 'assets/images/Inewadd.png'" alt="Add Icon" />
+                <button [disabled]="tabSelected === 0 || !rowSelected || childRowSelected" (click)="addPlugin()">Add new plug-in</button>
+              </div>
+              
+              <div class="body-action">
+                <img [src]="tabSelected === 1 || rowSelected ? 'assets/images/inewAddDIS.png' : 'assets/images/Inewadd.png'" alt="Add Icon" />
+                <button [disabled]="tabSelected === 1 || rowSelected" (click)="addRow()">Add</button>
+              </div>
+
+              <div class="body-action" *ngIf="tabSelected === 0" (click)="updateRow()">
+                <img [src]="!rowSelected ? 'assets/images/iNewUpdateDis.png' : 'assets/images/iNewUpdate.png'" alt="Update Icon" />
+                <button [disabled]="!rowSelected">Update</button>
+              </div>
+
+              <div class="body-action" *ngIf="tabSelected === 0">
+                <img [src]="!rowSelected ? 'assets/images/iNewDeleteDis.png' : 'assets/images/iNewDeleteHot.png'" alt="remove Icon" />
+                <button [disabled]="!rowSelected" (click)="removeRow()">Remove</button>
+              </div>
+
+              <div class="body-action" *ngIf="tabSelected === 1">
+                <img [src]="!childRowSelected ? 'assets/images/iNewUpdateDis.png' : 'assets/images/iNewUpdate.png'" alt="Update Icon" />
+                <button [disabled]="!childRowSelected" (click)="updateRow()">Update</button>
+              </div>
+
+              <div class="body-action" *ngIf="tabSelected === 1" (click)="removeRow()">
+                <img [src]="!childRowSelected ? 'assets/images/iNewDeleteDis.png' : 'assets/images/iNewDeleteHot.png'" alt="remove Icon" />
+                <button [disabled]="!childRowSelected" >Remove</button>
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <div class="container">
+              <header>
+                <mat-tab-group [(selectedIndex)]="tabSelected">
+                  <mat-tab label="Basic details">
+                    <fieldset style="border-style: none;">
+                      <table width="100%" border="0" class="bd-table" style="table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td><label>Display name</label></td>
+                            <td><input type="text" id="displayname" style="width: 95%;" title="displayname" [(ngModel)]="selectedRowData.extAppName"/></td>
+                            <td><label>Windows Modality</label></td>
+                            <td>
+                              <select id="modalityOptions" name="modalityOptions" title="Select one" [(ngModel)]="selectedRowData.invocationMode">
+                                <option value="0">Modal</option>
+                                <option value="1">Modeless</option>
+                                <option value="2">Decoupled</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><label>Code</label></td>
+                            <td><input type="text" style="width: 95%;" id="code" title="code" [(ngModel)]="selectedRowData.extAppDisplayName"/></td>
+                            <td><label>Link display sort order</label></td>
+                            <td><input type="number" step="1" min="1" max="10" [(ngModel)]="selectedRowData.sortOrder"/></td>
+                          </tr>
+                          <tr>
+                            <td><label>Support multiple windows</label></td>
+                            <td>
+                              <input type="checkbox" placeholder="Check if yes"
+                                [(ngModel)]="selectedRowData.isMultipleTypeInvocation"
+                                (ngModelChange)="updateMultipleTypeInvocation($event)"
+                                [checked]="selectedRowData.isMultipleTypeInvocation == 1||true">
+                            </td>
+                            <td colspan="2" style="width: 50%;"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <fieldset>
+                        <legend style="font-weight: bold;">Rule configuration</legend>
+                        <table style="width: 100%;" class="bd-rule">
+                          <tr>
+                            <td width="25%"><label>Rule Type</label></td>
+                            <td width="75%">
+                              <mat-radio-group [(ngModel)]="this.selectedRowData.diPolicyRule.rutypcode"
+                                aria-label="Select an option">
+                                <mat-radio-button value="CC_PERMIT">Permit</mat-radio-button>
+                                <mat-radio-button value="CC_DENY">Deny</mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="Adt_Activity_RowLabel" width="25%"><label>Rule</label></td>
+                            <td><textarea class="textarea" matInput placeholder="Type rule configuration..."
+                                [(ngModel)]="this.selectedRowData.diPolicyRule.extAppRule"></textarea>
+                            </td>
+                          </tr>
+                        </table>
+                      </fieldset>
+                    </fieldset>
+                  </mat-tab>
+
+                  <mat-tab label="Connection parameters">
+                    <fieldset>
+                      <legend style="font-weight: bold;">Connection parameters</legend>
+                      <table width="100%" border="0" class="cp-table" style="table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td><label>Plug-in Type</label></td>
+                            <td>
+                              <select [(ngModel)]="selectedChildRowData.pluginClassType" name="PluginTypes" id="PluginTypes" class="form-control" (ngModelChange)="onPluginChange($event)">
+                                <option *ngFor="let pluginType of integrationInfoModel.PluginTypes" [ngValue]="pluginType.label">{{ pluginType.label }}
+                                </option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><label>Plug-in Sequence</label></td>
+                            <td><input placeholder="sort order" type="number" step="1" min="1" max="10" id="quantity" class="quantity-field border-0 text-center w-25" [(ngModel)]="this.selectedChildRowData.order"></td>
+                          </tr>
+                          <tr>
+                            <td><label>Context Parameter</label></td>
+                            <td><textarea class="textarea" style="height: 170px;" [(ngModel)]="this.selectedChildRowData.pluginParameters" matInput [attr.disabled]="disableContextParams ? true : null"></textarea></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </fieldset>
+                  </mat-tab>
+                </mat-tab-group>
+              </header>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+
+  <mat-card-footer class="card-footer">
+    <div class="foot-action " (click)="Previous()">
+      <img src="assets/images/iPreviousStepHOT24.gif" alt="Next Icon" />
+      <a>Previous</a>
+    </div>
+    <div class="foot-action " (click)="onFinishNow()">
+      <img src="assets/images/iFinishHOT24.gif" alt="Cancel Icon" />
+      <a>Finish</a>
+    </div>
+    <div class="foot-action " (click)="onCancel()">
+      <img src="assets/images/iNewCancelHot.png" alt="Cancel Icon" />
+      <a>Cancel</a>
+    </div>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,44 @@
+<audio #errorSound src="assets/Error.wav"></audio>
+<audio #questionSound src="assets/Warning.wav"></audio>
+
+<div *ngIf="data.IsError" class="dialog">
+    <mat-card-header class="header">
+        <p>Error</p>
+        <mat-icon class="closeicon" (click)="closeDialog()">close</mat-icon>
+    </mat-card-header>
+    <div mat-dialog-content class="body">
+      <div class="content-container">
+        <img class="icon" src="assets/images/iError32.png" alt="Error Icon"/>
+        <p class="text">{{ data.errorMessage }}</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="action" (click)="closeDialog()">
+        <img src="assets/images/inewok.gif" alt="Ok Icon"/>
+        <a>Ok</a>
+      </div>
+    </div>
+</div>
+
+<div *ngIf="!data.IsError" class="dialog">
+  <mat-card-header class="header">
+      <p>Question</p>
+      <mat-icon class="closeicon" (click)="closeDialog()">close</mat-icon>
+  </mat-card-header>
+  <div mat-dialog-content class="body">
+    <div class="content-container">
+      <img class="icon" src="assets/images/iQuestion32.png" alt="Error Icon"/>
+      <p class="text">{{ data.errorMessage }}</p>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="action" (click)="confirmAction()">
+        <img src="assets/images/INewYes.png" alt="Yes Icon" />
+        <a>Yes</a>
+    </div>
+    <div class="action" (click)="cancelAction()">
+        <img src="assets/images/INewNo.png" alt="No Icon" />
+        <a>No</a>
+    </div>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+  <header class="header">
+    <div class="toggle" *ngIf="field === 'Manage integration instance'">
+        <div class="action">
+            <img [src]="showPopUp ? 'assets/images/iRoadMapCurrent.gif' : 'assets/images/iRoadMapUnvisited.png'" alt="Current window" />
+            <a (click)="showPopUp = true ; manageChildComponent2.Previous();" [ngClass]="{'active': showPopUp && field === 'Manage integration instance'}">Manage Integration Instance</a>
+        </div>
+        <div class="action">
+            <img [src]="!showPopUp ? 'assets/images/iRoadMapCurrent.gif' : 'assets/images/iRoadMapUnvisited.png'" alt="Next Icon" />
+            <a (click)="showPopUp = false;  createChildComponent.onNext();" [ngClass]="{'active': !showPopUp && field === 'Manage integration instance'}">Connection Parameter</a>
+        </div>
+    </div>
+    
+    <div class="toggle" *ngIf="field === 'Create integration instance'">
+        <div class="action">
+            <img [src]="showPopUp ? 'assets/images/iRoadMapCurrent.gif' : 'assets/images/iRoadMapUnvisited.png'" alt="Current window" />
+            <a (click)="showPopUp = true; createChildComponent2.Previous();" [ngClass]="{'active': showPopUp && field === 'Create integration instance'}">Create Integration Instance</a>
+        </div>
+        <div class="action">
+            <img [src]="!showPopUp ? 'assets/images/iRoadMapCurrent.gif' : 'assets/images/iRoadMapUnvisited.png'" alt="Next Icon" />
+            <a (click)="createChildComponent.onNext()" [ngClass]="{'active': !showPopUp && field === 'Create integration instance'}">Connection Parameter</a>
+        </div>
+    </div>
+          
+    <mat-icon class="closeicon" (click)="closeDialog()">close</mat-icon>
+  </header>
+
+  <main class="main-content" *ngIf="field=='Manage integration instance'">
+      <app-integration *ngIf="showPopUp" (navigateToConnectionParameter)="NavigateTo_CP()"></app-integration>
+      <app-connection-parameter *ngIf="!showPopUp"  (navigateToIntegration)="NavigateTo_I()"></app-connection-parameter>
+  </main>
+
+  <main class="main-content" *ngIf="field=='Create integration instance'">
+      <app-create-integration *ngIf="showPopUp" (navigateToCreateConnectionParameter)="NavigateTo_CP()"></app-create-integration>
+      <app-create-connection-parameter *ngIf="!showPopUp" (navigateToCreateIntegration)="NavigateTo_I()"></app-create-connection-parameter>
+  </main>
+</div>
+

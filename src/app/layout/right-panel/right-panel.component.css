@@ -1,0 +1,38 @@
+.app-container {
+    text-align: center;
+    background-color: #b8d2f0;
+    height: 100vh;
+    overflow: auto;
+}
+
+.header {
+    background-color: #f2f7fa;
+    display: flex;
+}
+.header button:hover{
+    text-decoration: underline;
+}
+
+.header button {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: Verdana, Arial, Sans-Serif;
+}
+
+.header button.active {
+    background-color: #95b8d1;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.main-content {
+    padding: 10px;
+}
+
+.h1 {
+    background-color: #86bff0;
+    display: flex;
+}
